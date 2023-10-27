@@ -731,6 +731,56 @@ func (s *ConsoleIntegrationTestSuite) TestListMessages() {
 		err = svc.ListMessages(ctx, input, mockProgress)
 		assert.NoError(err)
 	})
+
+	t.Run("with mutate", func(t *testing.T) {
+		mockCtrl := gomock.NewController(t)
+		defer mockCtrl.Finish()
+
+		mockProgress := mocks.NewMockIListMessagesProgress(mockCtrl)
+
+		var int64Type int64
+		// Go JSON unmarshals numeric values as float64
+		orderMatcher := MatchesJSON(map[string]map[string]any{
+			"20": {"id": "20", "name": "2"},
+			"21": {"id": "21", "name": "4"},
+			"22": {"id": "22", "name": "8"},
+			"23": {"id": "23", "name": "16"},
+			"24": {"id": "24", "name": "32"},
+			"25": {"id": "25", "name": "64"},
+			"26": {"id": "26", "name": "128"},
+			"27": {"id": "27", "name": "256"},
+			"28": {"id": "28", "name": "512"},
+			"29": {"id": "29", "name": "1024"},
+		})
+
+		mockProgress.EXPECT().OnPhase("Get Partitions")
+		mockProgress.EXPECT().OnPhase("Get Watermarks and calculate consuming requests")
+		mockProgress.EXPECT().OnPhase("Consuming messages")
+		mockProgress.EXPECT().OnMessageConsumed(gomock.AssignableToTypeOf(int64Type)).AnyTimes()
+		mockProgress.EXPECT().OnMessage(orderMatcher).Times(10)
+		mockProgress.EXPECT().OnComplete(gomock.AssignableToTypeOf(int64Type), false)
+
+		svc := createNewTestService(t, log, t.Name(), s.testSeedBroker, s.registryAddr)
+
+		code := `
+		setValue({ id: value.id, name: value.name }); 
+		return valueSchemaID == ` + strconv.Itoa(ssIDs[1]) + `;`
+
+		input := ListMessageRequest{
+			TopicName:             testTopicNameProto,
+			PartitionID:           -1,
+			StartOffset:           -2,
+			MessageCount:          100,
+			FilterInterpreterCode: code,
+		}
+
+		ctx, cancel := context.WithTimeout(ctx, 1*time.Minute)
+		defer cancel()
+
+		err = svc.ListMessages(ctx, input, mockProgress)
+
+		assert.NoError(err)
+	})
 }
 
 func createNewTestService(t *testing.T, log *zap.Logger,

@@ -232,7 +232,22 @@ func (s *Service) consumeKafkaMessages(ctx context.Context, client *kgo.Client, 
 	}
 }
 
-type isMessageOkFunc = func(args interpreterArguments) (bool, error)
+var jsCodeTemplate = `
+let redpanda_new_value = null;
+let redpanda_new_key = null;
+
+function setValue(o) {
+	redpanda_new_value = o;
+}
+
+function setKey(o) {
+	redpanda_new_key = o;
+}
+
+var isMessageOk = function() {%s}
+`
+
+type isMessageOkFunc = func(args interpreterArguments) (bool, any, any, error)
 
 // SetupInterpreter initializes the JavaScript interpreter along with the given JS code. It returns a wrapper function
 // which accepts all Kafka message properties (offset, key, value, ...) and returns true (message shall be returned) or false
@@ -240,11 +255,11 @@ type isMessageOkFunc = func(args interpreterArguments) (bool, error)
 func (*Service) setupInterpreter(interpreterCode string) (isMessageOkFunc, error) {
 	// In case there's no code for the interpreter let's return a dummy function which always allows all messages
 	if interpreterCode == "" {
-		return func(args interpreterArguments) (bool, error) { return true, nil }, nil
+		return func(args interpreterArguments) (bool, any, any, error) { return true, nil, nil, nil }, nil
 	}
 
 	vm := goja.New()
-	code := fmt.Sprintf(`var isMessageOk = function() {%s}`, interpreterCode)
+	code := fmt.Sprintf(jsCodeTemplate, interpreterCode)
 	_, err := vm.RunString(code)
 	if err != nil {
 		return nil, fmt.Errorf("failed to compile given interpreter code: %w", err)
@@ -259,7 +274,7 @@ func (*Service) setupInterpreter(interpreterCode string) (isMessageOkFunc, error
 	// We use named return parameter here because this way we can return a error message in recover().
 	// Returning a proper error is important because we want to stop the consumer for this partition
 	// if we exceed the execution timeout.
-	isMessageOk := func(args interpreterArguments) (isOk bool, err error) {
+	isMessageOk := func(args interpreterArguments) (isOk bool, outKey any, outVal any, err error) {
 		// 1. Setup timeout check. If execution takes longer than 400ms the VM will be killed
 		// Ctx is used to notify the below go routine once we are done
 		ctx, cancel := context.WithCancel(context.Background())
@@ -296,10 +311,13 @@ func (*Service) setupInterpreter(interpreterCode string) (isMessageOkFunc, error
 
 		isOkRes, err := vm.RunString("isMessageOk()")
 		if err != nil {
-			return false, fmt.Errorf("failed to evaluate javascript code: %w", err)
+			return false, nil, nil, fmt.Errorf("failed to evaluate javascript code: %w", err)
 		}
 
-		return isOkRes.ToBoolean(), nil
+		newKey := vm.Get("redpanda_new_key")
+		newValue := vm.Get("redpanda_new_value")
+
+		return isOkRes.ToBoolean(), newKey.Export(), newValue.Export(), nil
 	}
 
 	return isMessageOk, nil

@@ -11,6 +11,7 @@ package kafka
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"sync"
 	"time"
@@ -85,11 +86,25 @@ func (s *Service) startMessageWorker(ctx context.Context, wg *sync.WaitGroup,
 			ValueSchemaID: deserializedRec.Value.SchemaID,
 		}
 
-		isOK, err := isMessageOK(args)
+		isOK, outKey, outVal, err := isMessageOK(args)
 		var errMessage string
 		if err != nil {
 			s.Logger.Debug("failed to check if message is ok", zap.Error(err))
 			errMessage = fmt.Sprintf("Failed to check if message is ok (partition: '%v', offset: '%v'). Err: %v", record.Partition, record.Offset, err)
+		}
+
+		if isJSONable(deserializedRec.Value.Encoding) && outVal != nil {
+			newJSON, err := json.Marshal(outVal)
+			if err == nil {
+				deserializedRec.Value.NormalizedPayload = newJSON
+			}
+		}
+
+		if isJSONable(deserializedRec.Key.Encoding) && outKey != nil {
+			newJSON, err := json.Marshal(outKey)
+			if err == nil {
+				deserializedRec.Key.NormalizedPayload = newJSON
+			}
 		}
 
 		topicMessage := &TopicMessage{
@@ -112,4 +127,12 @@ func (s *Service) startMessageWorker(ctx context.Context, wg *sync.WaitGroup,
 		case resultsCh <- topicMessage:
 		}
 	}
+}
+
+func isJSONable(enc serde.PayloadEncoding) bool {
+	return enc == serde.PayloadEncodingJSON ||
+		enc == serde.PayloadEncodingJSONSchema ||
+		enc == serde.PayloadEncodingProtobuf ||
+		enc == serde.PayloadEncodingProtobufSchema ||
+		enc == serde.PayloadEncodingAvro
 }
