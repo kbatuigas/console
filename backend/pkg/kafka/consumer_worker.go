@@ -93,14 +93,14 @@ func (s *Service) startMessageWorker(ctx context.Context, wg *sync.WaitGroup,
 			errMessage = fmt.Sprintf("Failed to check if message is ok (partition: '%v', offset: '%v'). Err: %v", record.Partition, record.Offset, err)
 		}
 
-		if isJSONable(deserializedRec.Value.Encoding) && outVal != nil {
+		if outVal != nil && isJSONable(deserializedRec.Value.Encoding) {
 			newJSON, err := json.Marshal(outVal)
 			if err == nil {
 				deserializedRec.Value.NormalizedPayload = newJSON
 			}
 		}
 
-		if isJSONable(deserializedRec.Key.Encoding) && outKey != nil {
+		if outKey != nil && isJSONable(deserializedRec.Key.Encoding) {
 			newJSON, err := json.Marshal(outKey)
 			if err == nil {
 				deserializedRec.Key.NormalizedPayload = newJSON
