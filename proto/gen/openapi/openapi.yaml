@@ -701,13 +701,27 @@ components:
         only_failed:
           type: boolean
       type: object
-    PartitionTransformStatus.PartitionTransformStatus:
+    PartitionStatus:
       enum:
-        - PARTITION_TRANSFORM_STATUS_RUNNING
-        - PARTITION_TRANSFORM_STATUS_INACTIVE
-        - PARTITION_TRANSFORM_STATUS_ERRORED
-        - PARTITION_TRANSFORM_STATUS_UNKNOWN
+        - PARTITION_STATUS_RUNNING
+        - PARTITION_STATUS_INACTIVE
+        - PARTITION_STATUS_ERRORED
+        - PARTITION_STATUS_UNKNOWN
       type: string
+    PartitionTransformStatus:
+      properties:
+        lag:
+          format: int32
+          type: integer
+        node_id:
+          format: int32
+          type: integer
+        partition:
+          format: int32
+          type: integer
+        status:
+          $ref: '#/components/schemas/PartitionStatus'
+      type: object
     PermissionType:
       enum:
         - PERMISSION_TYPE_ANY
@@ -960,7 +974,7 @@ components:
           type: array
         status:
           items:
-            $ref: '#/components/schemas/v1alpha1.PartitionTransformStatus'
+            $ref: '#/components/schemas/PartitionTransformStatus'
           type: array
       type: object
     UpdateConfiguration:
@@ -1018,20 +1032,6 @@ components:
       properties:
         connector:
           $ref: '#/components/schemas/ConnectorSpec'
-      type: object
-    v1alpha1.PartitionTransformStatus:
-      properties:
-        lag:
-          format: int32
-          type: integer
-        node_id:
-          format: int32
-          type: integer
-        partition:
-          format: int32
-          type: integer
-        status:
-          $ref: '#/components/schemas/PartitionTransformStatus.PartitionTransformStatus'
       type: object
     v1alpha1.Topic:
       properties:

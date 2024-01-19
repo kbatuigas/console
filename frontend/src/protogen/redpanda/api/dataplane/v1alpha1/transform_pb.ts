@@ -76,9 +76,9 @@ export class PartitionTransformStatus extends Message<PartitionTransformStatus> 
   partition = 0;
 
   /**
-   * @generated from field: redpanda.api.dataplane.v1alpha1.PartitionTransformStatus.PartitionTransformStatus status = 3;
+   * @generated from field: redpanda.api.dataplane.v1alpha1.PartitionTransformStatus.PartitionStatus status = 3;
    */
-  status = PartitionTransformStatus_PartitionTransformStatus.UNSPECIFIED;
+  status = PartitionTransformStatus_PartitionStatus.UNSPECIFIED;
 
   /**
    * @generated from field: int32 lag = 4;
@@ -95,7 +95,7 @@ export class PartitionTransformStatus extends Message<PartitionTransformStatus> 
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "node_id", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
     { no: 2, name: "partition", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
-    { no: 3, name: "status", kind: "enum", T: proto3.getEnumType(PartitionTransformStatus_PartitionTransformStatus) },
+    { no: 3, name: "status", kind: "enum", T: proto3.getEnumType(PartitionTransformStatus_PartitionStatus) },
     { no: 4, name: "lag", kind: "scalar", T: 5 /* ScalarType.INT32 */ },
   ]);
 
@@ -117,41 +117,41 @@ export class PartitionTransformStatus extends Message<PartitionTransformStatus> 
 }
 
 /**
- * @generated from enum redpanda.api.dataplane.v1alpha1.PartitionTransformStatus.PartitionTransformStatus
+ * @generated from enum redpanda.api.dataplane.v1alpha1.PartitionTransformStatus.PartitionStatus
  */
-export enum PartitionTransformStatus_PartitionTransformStatus {
+export enum PartitionTransformStatus_PartitionStatus {
   /**
-   * @generated from enum value: PARTITION_TRANSFORM_STATUS_UNSPECIFIED = 0;
+   * @generated from enum value: PARTITION_STATUS_UNSPECIFIED = 0;
    */
   UNSPECIFIED = 0,
 
   /**
-   * @generated from enum value: PARTITION_TRANSFORM_STATUS_RUNNING = 1;
+   * @generated from enum value: PARTITION_STATUS_RUNNING = 1;
    */
   RUNNING = 1,
 
   /**
-   * @generated from enum value: PARTITION_TRANSFORM_STATUS_INACTIVE = 2;
+   * @generated from enum value: PARTITION_STATUS_INACTIVE = 2;
    */
   INACTIVE = 2,
 
   /**
-   * @generated from enum value: PARTITION_TRANSFORM_STATUS_ERRORED = 3;
+   * @generated from enum value: PARTITION_STATUS_ERRORED = 3;
    */
   ERRORED = 3,
 
   /**
-   * @generated from enum value: PARTITION_TRANSFORM_STATUS_UNKNOWN = 4;
+   * @generated from enum value: PARTITION_STATUS_UNKNOWN = 4;
    */
   UNKNOWN = 4,
 }
-// Retrieve enum metadata with: proto3.getEnumType(PartitionTransformStatus_PartitionTransformStatus)
-proto3.util.setEnumType(PartitionTransformStatus_PartitionTransformStatus, "redpanda.api.dataplane.v1alpha1.PartitionTransformStatus.PartitionTransformStatus", [
-  { no: 0, name: "PARTITION_TRANSFORM_STATUS_UNSPECIFIED" },
-  { no: 1, name: "PARTITION_TRANSFORM_STATUS_RUNNING" },
-  { no: 2, name: "PARTITION_TRANSFORM_STATUS_INACTIVE" },
-  { no: 3, name: "PARTITION_TRANSFORM_STATUS_ERRORED" },
-  { no: 4, name: "PARTITION_TRANSFORM_STATUS_UNKNOWN" },
+// Retrieve enum metadata with: proto3.getEnumType(PartitionTransformStatus_PartitionStatus)
+proto3.util.setEnumType(PartitionTransformStatus_PartitionStatus, "redpanda.api.dataplane.v1alpha1.PartitionTransformStatus.PartitionStatus", [
+  { no: 0, name: "PARTITION_STATUS_UNSPECIFIED" },
+  { no: 1, name: "PARTITION_STATUS_RUNNING" },
+  { no: 2, name: "PARTITION_STATUS_INACTIVE" },
+  { no: 3, name: "PARTITION_STATUS_ERRORED" },
+  { no: 4, name: "PARTITION_STATUS_UNKNOWN" },
 ]);
 
 /**
