@@ -235,6 +235,12 @@ func (api *API) routes() *chi.Mux {
 				r.Post("/users", api.handleCreateUser())
 				r.Delete("/users/{principalID}", api.handleDeleteUser())
 
+				// Wasm Transforms
+				r.Get("/transforms", api.handleListTransforms())
+				r.Get("/transforms/{transformID}", api.handleGetTransform())
+				r.Put("/transforms", api.handleDeployTransform())
+				r.Delete("/transforms/{transformID}", api.handleDeleteTransform())
+
 				// Topics
 				r.Get("/topics-configs", api.handleGetTopicsConfigs())
 				r.Get("/topics-offsets", api.handleGetTopicsOffsets())

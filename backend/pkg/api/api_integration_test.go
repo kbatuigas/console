@@ -582,6 +582,28 @@ func (a *assertHooks) IsProtectedKafkaUser(_ string) bool {
 	return rv.BoolValue
 }
 
+func (*assertHooks) CanListTransforms(_ context.Context) (bool, *rest.Error) {
+	if !a.isCallAllowed("any") {
+		assertHookCall(a.t)
+	}
+	rv := a.getCallReturnValue("any")
+	return rv.BoolValue, rv.Err
+}
+func (*assertHooks) CanDeployTransforms(_ context.Context) (bool, *rest.Error) {
+	if !a.isCallAllowed("any") {
+		assertHookCall(a.t)
+	}
+	rv := a.getCallReturnValue("any")
+	return rv.BoolValue, rv.Err
+}
+func (*assertHooks) CanDeleteTransforms(_ context.Context) (bool, *rest.Error) {
+	if !a.isCallAllowed("any") {
+		assertHookCall(a.t)
+	}
+	rv := a.getCallReturnValue("any")
+	return rv.BoolValue, rv.Err
+}
+
 // Console hooks
 func (a *assertHooks) ConsoleLicenseInformation(_ context.Context) rp.License {
 	if !a.isCallAllowed("any") {
