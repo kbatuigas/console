@@ -16,14 +16,14 @@ export class TransformMetadata extends Message<TransformMetadata> {
   name = "";
 
   /**
-   * @generated from field: string input_topic = 2;
+   * @generated from field: string input_topic_name = 2;
    */
-  inputTopic = "";
+  inputTopicName = "";
 
   /**
-   * @generated from field: repeated string output_topics = 3;
+   * @generated from field: repeated string output_topic_names = 3;
    */
-  outputTopics: string[] = [];
+  outputTopicNames: string[] = [];
 
   /**
    * @generated from field: repeated redpanda.api.dataplane.v1alpha1.PartitionTransformStatus status = 4;
@@ -39,8 +39,8 @@ export class TransformMetadata extends Message<TransformMetadata> {
   static readonly typeName = "redpanda.api.dataplane.v1alpha1.TransformMetadata";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "input_topic", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "output_topics", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 2, name: "input_topic_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "output_topic_names", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
     { no: 4, name: "status", kind: "message", T: PartitionTransformStatus, repeated: true },
   ]);
 
@@ -440,19 +440,19 @@ export class DeployTransformRequest extends Message<DeployTransformRequest> {
   wasmBinary = new Uint8Array(0);
 
   /**
-   * 'input_topic' specifies the name of the input topic for the transform.
+   * 'input_topic_name' specifies the name of the input topic for the transform.
    *
-   * @generated from field: string input_topic = 3;
+   * @generated from field: string input_topic_name = 3;
    */
-  inputTopic = "";
+  inputTopicName = "";
 
   /**
-   * 'output_topics' is a list of output topics for the transform. This field can contain
+   * 'output_topic_names' is a list of output topics for the transform. This field can contain
    * multiple strings, each representing the name of an output topic.
    *
-   * @generated from field: repeated string output_topics = 4;
+   * @generated from field: repeated string output_topic_names = 4;
    */
-  outputTopics: string[] = [];
+  outputTopicNames: string[] = [];
 
   /**
    * 'environment' is a map representing key-value pairs of environment configurations.
@@ -474,8 +474,8 @@ export class DeployTransformRequest extends Message<DeployTransformRequest> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "wasm_binary", kind: "scalar", T: 12 /* ScalarType.BYTES */ },
-    { no: 3, name: "input_topic", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 4, name: "output_topics", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
+    { no: 3, name: "input_topic_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 4, name: "output_topic_names", kind: "scalar", T: 9 /* ScalarType.STRING */, repeated: true },
     { no: 5, name: "environment", kind: "map", K: 9 /* ScalarType.STRING */, V: {kind: "scalar", T: 9 /* ScalarType.STRING */} },
   ]);
 

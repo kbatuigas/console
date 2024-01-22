@@ -964,11 +964,11 @@ components:
       type: object
     TransformMetadata:
       properties:
-        input_topic:
+        input_topic_name:
           type: string
         name:
           type: string
-        output_topics:
+        output_topic_names:
           items:
             type: string
           type: array
@@ -2457,16 +2457,16 @@ paths:
           schema:
             format: byte
             type: string
-        - description: '''input_topic'' specifies the name of the input topic for the transform.'
+        - description: '''input_topic_name'' specifies the name of the input topic for the transform.'
           in: query
-          name: input_topic
+          name: input_topic_name
           schema:
             type: string
         - description: |-
-            'output_topics' is a list of output topics for the transform. This field can contain
+            'output_topic_names' is a list of output topics for the transform. This field can contain
             multiple strings, each representing the name of an output topic.
           in: query
-          name: output_topics
+          name: output_topic_names
           schema:
             items:
               type: string
