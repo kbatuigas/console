@@ -40,10 +40,10 @@ func transformsConversion(transforms []adminapi.TransformMetadata) ([]*v1alpha1.
 			return nil, err
 		}
 		apiTransforms = append(apiTransforms, &v1alpha1.TransformMetadata{
-			Name:         transform.Name,
-			InputTopic:   transform.InputTopic,
-			OutputTopics: transform.OutputTopics,
-			Status:       stat,
+			Name:             transform.Name,
+			InputTopicName:   transform.InputTopic,
+			OutputTopicNames: transform.OutputTopics,
+			Status:           stat,
 		})
 	}
 	return apiTransforms, nil

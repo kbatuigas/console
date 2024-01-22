@@ -48,8 +48,8 @@ func (s *Service) DeployTransform(ctx context.Context, c *connect.Request[v1alph
 
 	if err := s.redpandaSvc.DeployWasmTransform(ctx, adminapi.TransformMetadata{
 		Name:         c.Msg.Name,
-		InputTopic:   c.Msg.InputTopic,
-		OutputTopics: c.Msg.OutputTopics,
+		InputTopic:   c.Msg.InputTopicName,
+		OutputTopics: c.Msg.OutputTopicNames,
 		Status:       nil,
 		Environment:  envs,
 	}, c.Msg.WasmBinary); err != nil {
