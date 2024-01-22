@@ -61,10 +61,10 @@ func statusConversion(transform adminapi.TransformMetadata) ([]*v1alpha1.Partiti
 			)
 		}
 		pts = append(pts, &v1alpha1.PartitionTransformStatus{
-			NodeId:    intToInt32(ts.NodeID),
+			NodeId:    int32(ts.NodeID),
 			Status:    st,
-			Lag:       intToInt32(ts.Lag),
-			Partition: intToInt32(ts.Partition),
+			Lag:       int32(ts.Lag),
+			Partition: int32(ts.Partition),
 		})
 	}
 	return pts, nil
