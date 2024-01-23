@@ -69,7 +69,7 @@ import { createStandaloneToast, redpandaTheme, redpandaToastOptions } from '@red
 
 import { Interceptor as ConnectRpcInterceptor, StreamRequest, UnaryRequest, createPromiseClient } from '@connectrpc/connect';
 import { createConnectTransport } from '@connectrpc/connect-web';
-import { proto3 } from '@bufbuild/protobuf';
+import { proto3, MethodKind } from '@bufbuild/protobuf';
 import { ConsoleService } from '../protogen/redpanda/api/console/v1alpha1/console_service_connect';
 import { ListMessagesRequest } from '../protogen/redpanda/api/console/v1alpha1/list_messages_pb';
 import { PayloadEncoding, CompressionType as ProtoCompressionType } from '../protogen/redpanda/api/console/v1alpha1/common_pb';
@@ -245,6 +245,18 @@ const addBearerTokenInterceptor: ConnectRpcInterceptor = (next) => async (req: U
 };
 
 
+// Set keep alive if the server is streaming a response
+const keepAliveForStreamingInterceptor: ConnectRpcInterceptor = (next) => async (req: UnaryRequest | StreamRequest) => {
+    return await next({
+        ...req,
+        init: {
+            ...req.init,
+            keepalive: req.method.kind === MethodKind.ServerStreaming,
+        },
+    });
+}
+
+
 let messageSearchAbortController: AbortController | null = null;
 
 //
@@ -374,7 +386,7 @@ const apiStore = {
         const abortController = messageSearchAbortController = new AbortController();
         const transport = createConnectTransport({
             baseUrl: appConfig.grpcBase,
-            interceptors: [addBearerTokenInterceptor]
+            interceptors: [addBearerTokenInterceptor, keepAliveForStreamingInterceptor]
         });
 
         const client = createPromiseClient(ConsoleService, transport);
