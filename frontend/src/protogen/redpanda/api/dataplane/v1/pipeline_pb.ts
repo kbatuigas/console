@@ -61,7 +61,7 @@ export class Pipeline extends Message<Pipeline> {
   status?: Pipeline_Status;
 
   /**
-   * URL to connect to the pipeline, e.g. via http_server.
+   * URL to connect to the pipeline, for example, using http_server.
    * May be empty if no http_server is used.
    *
    * @generated from field: string url = 10;
@@ -299,7 +299,7 @@ export class PipelineCreate extends Message<PipelineCreate> {
   description = "";
 
   /**
-   * The Repanda Connect pipeline configuration in YAML format. See the [Redpanda Connect Configuration](https://docs.redpanda.com/redpanda-cloud/develop/connect/configuration/about) documentation for more details.
+   * The Redpanda Connect pipeline configuration in YAML format. See the [Redpanda Connect Configuration](https://docs.redpanda.com/redpanda-cloud/develop/connect/configuration/about) documentation for more details.
    *
    * @generated from field: string config_yaml = 3;
    */
@@ -313,7 +313,7 @@ export class PipelineCreate extends Message<PipelineCreate> {
   resources?: Pipeline_Resources;
 
   /**
-   * Optional lList of tags to attach to a pipeline.
+   * Optional list of tags to attach to a pipeline.
    *
    * @generated from field: map<string, string> tags = 7;
    */

@@ -7,17 +7,15 @@
 package dataplanev1
 
 import (
-	reflect "reflect"
-	sync "sync"
-
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	_ "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2/options"
+	_ "github.com/redpanda-data/console/backend/pkg/protogen/redpanda/api/auth/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
-
-	_ "github.com/redpanda-data/console/backend/pkg/protogen/redpanda/api/auth/v1"
+	reflect "reflect"
+	sync "sync"
 )
 
 const (
@@ -112,7 +110,7 @@ type Pipeline struct {
 	// The current pipeline state.
 	State  Pipeline_State   `protobuf:"varint,7,opt,name=state,proto3,enum=redpanda.api.dataplane.v1.Pipeline_State" json:"state,omitempty"`
 	Status *Pipeline_Status `protobuf:"bytes,8,opt,name=status,proto3" json:"status,omitempty"`
-	// URL to connect to the pipeline, e.g. via http_server.
+	// URL to connect to the pipeline, for example, using http_server.
 	// May be empty if no http_server is used.
 	Url string `protobuf:"bytes,10,opt,name=url,proto3" json:"url,omitempty"`
 	// Tags are key-value pairs that can be assigned to a pipeline resource.
@@ -222,11 +220,11 @@ type PipelineCreate struct {
 	DisplayName string `protobuf:"bytes,1,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Pipeline description.
 	Description string `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	// The Repanda Connect pipeline configuration in YAML format. See the [Redpanda Connect Configuration](https://docs.redpanda.com/redpanda-cloud/develop/connect/configuration/about) documentation for more details.
+	// The Redpanda Connect pipeline configuration in YAML format. See the [Redpanda Connect Configuration](https://docs.redpanda.com/redpanda-cloud/develop/connect/configuration/about) documentation for more details.
 	ConfigYaml string `protobuf:"bytes,3,opt,name=config_yaml,json=configYaml,proto3" json:"config_yaml,omitempty"`
 	// The number of resources that are guaranteed to be assigned to the pipeline.
 	Resources *Pipeline_Resources `protobuf:"bytes,6,opt,name=resources,proto3" json:"resources,omitempty"`
-	// Optional lList of tags to attach to a pipeline.
+	// Optional list of tags to attach to a pipeline.
 	Tags          map[string]string `protobuf:"bytes,7,rep,name=tags,proto3" json:"tags,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
