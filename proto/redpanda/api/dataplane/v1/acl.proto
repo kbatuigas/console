@@ -132,7 +132,20 @@ message CreateACLRequest {
       ] /* Disallow: Unspecified and ANY */
     },
     (google.api.field_behavior) = REQUIRED,
-    (buf.validate.field).required = true
+    (buf.validate.field).required = true,
+    (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+      description: "The type of resource this ACL targets, such as topics and consumer groups."
+      enum: [
+        "RESOURCE_TYPE_TOPIC",
+        "RESOURCE_TYPE_GROUP",
+        "RESOURCE_TYPE_CLUSTER",
+        "RESOURCE_TYPE_TRANSACTIONAL_ID",
+        "RESOURCE_TYPE_DELEGATION_TOKEN",
+        "RESOURCE_TYPE_USER",
+        "RESOURCE_TYPE_REGISTRY",
+        "RESOURCE_TYPE_SUBJECT"
+      ]
+    }
   ];
 
   // The name of the resource this ACL targets.
