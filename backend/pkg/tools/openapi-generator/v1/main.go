@@ -182,9 +182,9 @@ func updateSecurity(doc3 *openapi3.T) {
 
 func updateInfo(doc3 *openapi3.T) {
 	doc3.Info = &openapi3.Info{
-		Title:   "Redpanda Cloud Data Plane API",
-		Description: "Use the Data Plane API to manage topics, ACLs, and connectors within each cluster."
-		Version: "v1",
+		Title:       "Redpanda Cloud Data Plane API",
+		Description: "Use the Data Plane API to manage topics, ACLs, and connectors within each cluster.",
+		Version:     "v1",
 	}
 }
 

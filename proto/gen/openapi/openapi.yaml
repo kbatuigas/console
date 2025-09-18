@@ -2224,6 +2224,7 @@ components:
           x-client-id: dQjapNIAHhF7EQqQToRla3yEII9sUSap
       type: oauth2
 info:
+  description: Use the Data Plane API to manage topics, ACLs, and connectors within each cluster.
   title: Redpanda Cloud Data Plane API
   version: v1
 openapi: 3.0.3
@@ -3490,7 +3491,7 @@ paths:
       description: 'List Kafka Connect cluster secrets. Optional: filter based on secret name and labels.'
       operationId: SecretService_ListKafkaConnectSecrets
       parameters:
-        - description: Unique name of target connect cluster. For Redpanda Cloud, use `redpanda`.
+        - description: Unique name of target Connect cluster. For Redpanda Cloud, use `redpanda`.
           in: path
           name: cluster_name
           required: true
@@ -3561,7 +3562,7 @@ paths:
       description: Create a Kafka Connect cluster secret.
       operationId: SecretService_CreateKafkaConnectSecret
       parameters:
-        - description: Unique name of target connect cluster. For Redpanda Cloud, use `redpanda`.
+        - description: Unique name of target Connect cluster. For Redpanda Cloud, use `redpanda`.
           in: path
           name: cluster_name
           required: true
@@ -3607,7 +3608,7 @@ paths:
       description: Delete a Kafka Connect cluster secret.
       operationId: SecretService_DeleteKafkaConnectSecret
       parameters:
-        - description: Unique name of target connect cluster. For Redpanda Cloud, use `redpanda`.
+        - description: Unique name of target Connect cluster. For Redpanda Cloud, use `redpanda`.
           in: path
           name: cluster_name
           required: true
@@ -3656,7 +3657,7 @@ paths:
       description: Get a specific Kafka Connect cluster secret.
       operationId: SecretService_GetKafkaConnectSecret
       parameters:
-        - description: Unique name of target connect cluster. For Redpanda Cloud, use `redpanda`.
+        - description: Unique name of target Connect cluster. For Redpanda Cloud, use `redpanda`.
           in: path
           name: cluster_name
           required: true
@@ -3706,7 +3707,7 @@ paths:
       description: Update a Kafka Connect cluster secret.
       operationId: SecretService_UpdateKafkaConnectSecret
       parameters:
-        - description: Unique name of target connect cluster. For Redpanda Cloud, use `redpanda`.
+        - description: Unique name of target Connect cluster. For Redpanda Cloud, use `redpanda`.
           in: path
           name: cluster_name
           required: true
